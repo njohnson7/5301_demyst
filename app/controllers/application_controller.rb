@@ -3,10 +3,10 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery prepend: true
 
-  def hello_world
-    name = params['name'] || 'World'
-    render 'application/hello_world', locals: { name: name }
+  def find_post_by_id id
+    connection.execute('SELECT * FROM posts WHERE posts.id = ? LIMIT 1', params['id']).first
   end
+
 
   def list_posts
     posts = connection.execute 'SELECT * FROM posts'
@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   end
 
   def show_post
-    post = connection.execute('SELECT * FROM posts WHERE posts.id = ? LIMIT 1', params['id']).first
+    post = find_post_by_id params['id']
     render 'application/show_post', locals: { post: post }
   end
 
@@ -38,7 +38,7 @@ class ApplicationController < ActionController::Base
   end
 
   def edit_post
-    post = connection.execute('SELECT * FROM posts WHERE posts.id = ? LIMIT 1', params['id']).first
+    post = find_post_by_id params['id']
     render 'application/edit_post', locals: { post: post }
   end
 
@@ -52,6 +52,11 @@ class ApplicationController < ActionController::Base
     SQL
     connection.execute update_query, params['title'], params['body'], params['author'], params['id']
 
+    redirect_to '/list_posts'
+  end
+
+  def delete_post
+    connection.execute('DELETE FROM posts WHERE posts.id = ?', params['id'])
     redirect_to '/list_posts'
   end
 
