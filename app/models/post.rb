@@ -24,12 +24,12 @@ class Post
   end
 
   def set_attributes attributes
-    @id            = attributes['id'] if new_record?
-    @title         = attributes['title']
-    @body          = attributes['body']
-    @author        = attributes['author']
-    @created_at  ||= attributes['created_at']
-    @errors        = {}
+    @id           = attributes['id'] if new_record?
+    @title        = attributes['title']
+    @body         = attributes['body']
+    @author       = attributes['author']
+    @created_at ||= attributes['created_at']
+    @errors       = {}
   end
 
   def save
