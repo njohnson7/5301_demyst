@@ -1,3 +1,5 @@
+# /config/routes.rb
+
 Rails.application.routes.draw do
   get '/list_posts'    => 'application#list_posts'
   get '/show_post/:id' => 'application#show_post'

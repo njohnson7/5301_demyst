@@ -1,4 +1,4 @@
-<!-- app/views/application/list_posts.html.erb -->
+<!-- /app/views/application/list_posts.html.erb -->
 
 <html>
   <body>
@@ -8,17 +8,17 @@
         <div class='post'>
 
           <h2 class='title'>
-            <a href="/show_post/<%= post['id'] %>"><%= post['title'] %></a>
+            <a href="/show_post/<%= post.id %>"><%= post.title %></a>
           </h2>
 
           <small class='meta'>
-            <span class='author'>by <%= post['author'] %> -</span>
-            <em class='created_at'><%= post['created_at'] %></em>
+            <span class='author'>by <%= post.author %> — </span>
+            <em class='created_at'><%= post.created_at %></em>
           </small>
 
-          <a href="/edit_post/<%= post['id'] %>">Edit</a>
+          <a href="/edit_post/<%= post.id %>">Edit</a>
 
-          <form method='post' action='/delete_post/<%= post['id'] %>' style='display: inline'>
+          <form method='post' action='/delete_post/<%= post.id %>' style='display: inline'>
             <input type='submit' value='Delete'>
           </form>
         </div>
@@ -26,7 +26,6 @@
       <% end %>
     </div>
 
-    <!-- link to new post -->
     <a href="/new_post">New Post</a>
 
   </body>
