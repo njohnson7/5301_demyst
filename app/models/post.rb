@@ -17,22 +17,25 @@ class Post
     post_hashes.map { |post_hash| new post_hash }
   end
 
-  attr_reader :id, :title, :body, :author, :created_at
+  attr_reader :id, :title, :body, :author, :created_at, :errors
 
   def initialize attributes = {}
     set_attributes attributes
   end
 
   def set_attributes attributes
-    @id           = attributes['id'] if new_record?
-    @title        = attributes['title']
-    @body         = attributes['body']
-    @author       = attributes['author']
-    @created_at ||= attributes['created_at']
+    @id            = attributes['id'] if new_record?
+    @title         = attributes['title']
+    @body          = attributes['body']
+    @author        = attributes['author']
+    @created_at  ||= attributes['created_at']
+    @errors        = {}
   end
 
   def save
+    return false unless valid?
     new_record? ? insert : update
+    true
   end
 
   def insert
@@ -72,5 +75,12 @@ class Post
 
   def new_record?
     id.nil?
+  end
+
+  def valid?
+    @errors['title']  = "can't be blank" if title.blank?
+    @errors['body']   = "can't be blank" if body.blank?
+    @errors['author'] = "can't be blank" if author.blank?
+    @errors.empty?
   end
 end
