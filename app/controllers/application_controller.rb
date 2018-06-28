@@ -1,3 +1,5 @@
+### app/controllers/application_controller.rb ###
+
 class ApplicationController < ActionController::Base
   protect_from_forgery prepend: true
 
@@ -31,6 +33,24 @@ class ApplicationController < ActionController::Base
       params['body'],
       params['author'],
       Date.current.to_s
+
+    redirect_to '/list_posts'
+  end
+
+  def edit_post
+    post = connection.execute('SELECT * FROM posts WHERE posts.id = ? LIMIT 1', params['id']).first
+    render 'application/edit_post', locals: { post: post }
+  end
+
+  def update_post
+    update_query = <<-SQL
+      UPDATE posts
+      SET title      = ?,
+          body       = ?,
+          author     = ?
+      WHERE posts.id = ?
+    SQL
+    connection.execute update_query, params['title'], params['body'], params['author'], params['id']
 
     redirect_to '/list_posts'
   end
