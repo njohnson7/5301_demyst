@@ -1,26 +1,7 @@
 # /app/models/post.rb
 
-class Post
-  def self.connection
-    db_connection                 = SQLite3::Database.new 'db/development.sqlite3'
-    db_connection.results_as_hash = true
-    db_connection
-  end
-  def connection
-    self.class.connection
-  end
-
-  def self.find id
-    post_hash = connection.execute('SELECT * FROM posts WHERE posts.id = ? LIMIT 1', id).first
-    new post_hash
-  end
-
-  def self.all
-    post_hashes = connection.execute 'SELECT * FROM posts'
-    post_hashes.map { |post_hash| new post_hash }
-  end
-
-  attr_reader :id, :title, :body, :author, :created_at, :errors
+class Post < BaseModel
+  attr_reader :id, :title, :body, :author, :created_at
 
   def initialize attributes = {}
     set_attributes attributes
@@ -33,12 +14,6 @@ class Post
     @author       = attributes['author']
     @created_at ||= attributes['created_at']
     @errors       = {}
-  end
-
-  def save
-    return false unless valid?
-    new_record? ? insert : update
-    true
   end
 
   def insert
@@ -66,14 +41,6 @@ class Post
       body,
       author,
       id
-  end
-
-  def destroy
-    connection.execute 'DELETE FROM posts WHERE posts.id = ?', id
-  end
-
-  def new_record?
-    id.nil?
   end
 
   def valid?

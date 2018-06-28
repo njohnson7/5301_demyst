@@ -27,21 +27,20 @@
             <p class="comment_body"><%= comment.body %></p>
           </div>
           <hr>
-
-         <!-- display errors -->
-          <div class="errors">
-            <% comment.errors.each do |attribute, error| %>
-              <p class="error" style="color: orange">
-                <%= attribute %>: <%= error %>
-              </p>
-            <% end%>
-          </div>
-
           <form method="post" action="/list_posts/<%= post.id %>/delete_comment/<%= comment.id %>">
             <input type="submit" value="Delete Comment" />
           </form>
           <hr />
         <% end %>
+
+        <!-- display errors -->
+         <div class="errors">
+           <% comment.errors.each do |attribute, error| %>
+             <p class="error" style="color: orange">
+               <%= attribute %>: <%= error %>
+             </p>
+           <% end%>
+         </div>
 
         <!-- populate comment <form> with values -->
         <form method="post" action="/create_comment_for_post/<%= post.id %>">

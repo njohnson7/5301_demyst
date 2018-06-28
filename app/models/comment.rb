@@ -1,26 +1,7 @@
 # /app/models/comment.rb
 
-class Comment
-  def self.find(id)
-    comment_hash = connection.execute("SELECT * FROM comments WHERE comments.id = ? LIMIT 1", id).first
-    Comment.new comment_hash
-  end
-
-  def self.all
-    comment_row_hashes = connection.execute("SELECT * FROM comments")
-    comment_row_hashes.map { |comment_row_hash| Comment.new comment_row_hash }
-  end
-
-  def self.connection
-    db_connection                 = SQLite3::Database.new 'db/development.sqlite3'
-    db_connection.results_as_hash = true
-    db_connection
-  end
-  def connection
-    self.class.connection
-  end
-
-  attr_reader :id, :body, :author, :post_id, :created_at, :errors
+class Comment < BaseModel
+  attr_reader :id, :body, :author, :post_id, :created_at
 
   def initialize attributes = {}
     @id           = attributes['id'] if new_record?
@@ -29,16 +10,6 @@ class Comment
     @post_id      = attributes['post_id']
     @created_at ||= attributes['created_at']
     @errors       = {}
-  end
-
-  def save
-    return false unless valid?
-    if new_record?
-      insert
-    else
-      update
-    end
-    true
   end
 
   def insert
@@ -54,15 +25,6 @@ class Comment
   end
 
   def update
-
-  end
-
-  def destroy
-    connection.execute 'DELETE FROM comments WHERE id = ?', id
-  end
-
-  def new_record?
-    id.nil?
   end
 
   def valid?
