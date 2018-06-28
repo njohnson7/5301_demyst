@@ -9,4 +9,8 @@ Rails.application.routes.draw do
   get '/edit_post/:id'    => 'application#edit_post'
   post'/update_post/:id'  => 'application#update_post'
   post '/delete_post/:id' => 'application#delete_post'
+
+  post '/create_comment_for_post/:post_id' => 'application#create_comment'
+  post '/list_posts/:post_id/delete_comment/:comment_id' => 'application#delete_comment'
+  get '/list_comments'    => 'application#list_comments'
 end

@@ -2,9 +2,12 @@
 
 class Post
   def self.connection
-    db_connection = SQLite3::Database.new('db/development.sqlite3')
+    db_connection                 = SQLite3::Database.new 'db/development.sqlite3'
     db_connection.results_as_hash = true
     db_connection
+  end
+  def connection
+    self.class.connection
   end
 
   def self.find id
@@ -69,18 +72,32 @@ class Post
     connection.execute 'DELETE FROM posts WHERE posts.id = ?', id
   end
 
-  def connection
-    self.class.connection
-  end
-
   def new_record?
     id.nil?
   end
 
   def valid?
-    @errors['title']  = "can't be blank" if title.blank?
-    @errors['body']   = "can't be blank" if body.blank?
-    @errors['author'] = "can't be blank" if author.blank?
-    @errors.empty?
+    errors['title']  = "can't be blank" if title.blank?
+    errors['body']   = "can't be blank" if body.blank?
+    errors['author'] = "can't be blank" if author.blank?
+    errors.empty?
+  end
+
+  def comments
+    comment_hashes = connection.execute('SELECT * FROM comments WHERE comments.post_id = ?', id)
+    comment_hashes.map { |comment_hash| Comment.new comment_hash }
+  end
+
+  def build_comment attributes
+    Comment.new attributes.merge!('post_id' => id)
+  end
+
+  def create_comment attributes
+    comment = build_comment attributes
+    comment.save
+  end
+
+  def delete_comment comment_id
+    Comment.find(comment_id).destroy
   end
 end

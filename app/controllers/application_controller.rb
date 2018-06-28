@@ -10,8 +10,10 @@ class ApplicationController < ActionController::Base
 
   def show_post
     post     = Post.find params['id']
-    comments = connection.execute('SELECT * FROM comments WHERE comments.post_id = ?', params['id'])
-    render 'application/show_post', locals: { post: post, comments: comments }
+    comment  = Comment.new
+    comments = post.comments
+    render "application/show_post",
+      locals: { post: post, comment: comment, comments: comments }
   end
 
   def new_post
@@ -55,6 +57,32 @@ class ApplicationController < ActionController::Base
     post = Post.find params['id']
     post.destroy
     redirect_to '/list_posts'
+  end
+
+  def create_comment
+    post     = Post.find params['post_id']
+    comments = post.comments
+    comment  = post.build_comment(
+      'body'   => params['body'],
+      'author' => params['author'],
+    )
+    if comment.save
+      redirect_to "/show_post/#{params['post_id']}"
+    else
+      render 'application/show_post',
+        locals: { post: post, comment: comment, comments: comments }
+    end
+  end
+
+  def delete_comment
+    post = Post.find params['post_id']
+    post.delete_comment params['comment_id']
+    redirect_to "/show_post/#{params['post_id']}"
+  end
+
+  def list_comments
+    comments = Comment.all
+    render 'application/list_comments', locals: { comments: comments }
   end
 
 
