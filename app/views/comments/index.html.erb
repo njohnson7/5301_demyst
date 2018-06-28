@@ -3,7 +3,7 @@
 <html>
   <body>
     <div class="comments">
-      <% comments.each do |comment| %>
+      <% @comments.each do |comment| %>
 
         <div class="comment">
           <small class="comment_meta">
@@ -19,7 +19,7 @@
           <p class="comment_body"><%= comment.body %></p>
         </div>
 
-        <hr />
+        <hr>
       <% end %>
     </div>
   </body>
