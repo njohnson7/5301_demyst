@@ -1,4 +1,4 @@
-# /app/models/base_model.rb
+# app/models/base_model.rb
 
 class BaseModel
   def self.connection

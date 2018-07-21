@@ -1,4 +1,4 @@
-# /app/models/comment.rb
+# app/models/comment.rb
 
 class Comment < BaseModel
   attr_reader :id, :body, :author, :post_id, :created_at
