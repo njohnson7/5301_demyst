@@ -1,5 +1,3 @@
-<!-- /app/views/application/edit_@post.html.erb -->
-
 <html>
   <body>
     <div class='errors'>
@@ -10,23 +8,24 @@
       <% end %>
     </div>
 
-    <form method="post" action="/update_post/<%= @post.id %>">
-      <label for="title"> Title</label>
-      <input id="title" name="title" type="text" value="<%= @post.title %>"/>
-      <br> <br>
+    <form method="post" action="<%= edit_post_path @post.id %>" data-method='patch'>
+      <label for="title">Title</label>
+      <input id="title" name="title" type="text" value="<%= @post.title %>">
+      <br><br>
 
-      <label for="body"> Body</label>
+      <label for="body">Body</label>
       <textarea id="body" name="body"><%= @post.body %></textarea>
-      <br> <br>
+      <br><br>
 
-      <label for="author"> Author</label>
-      <input id="author" name="author" type="text" value="<%= @post.author %>"/>
-      <br> <br>
+      <label for="author">Author</label>
+      <input id="author" name="author" type="text" value="<%= @post.author %>">
+      <br><br>
 
       <input type="submit" value="Update Post">
     </form>
 
     <br>
-    <a href="/list_posts">Back to Posts</a>
+    <a href='<%= posts_path %>'>Back to Posts</a>
   </body>
 </html>
+

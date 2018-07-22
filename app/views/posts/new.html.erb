@@ -1,5 +1,3 @@
-<!-- /app/views/application/new_post.html.erb -->
-
 <html>
   <body>
     <div class='errors'>
@@ -10,23 +8,24 @@
       <% end %>
     </div>
 
-    <form method='post' action='/create_post'>
+    <form method='post' action='<%= posts_path %>'>
       <label for="title"> Title</label>
       <input id="title" name="title" type="text" value='<%= @post.title %>'>
-      <br> <br>
+      <br><br>
 
       <label for="body"> Body</label>
       <textarea id="body" name="body"><%= @post.body %></textarea>
-      <br> <br>
+      <br><br>
 
       <label for="author"> Author</label>
       <input id="author" name="author" type="text" value='<%= @post.author %>'>
-      <br> <br>
+      <br><br>
 
       <input type='submit' value='Create Post'>
     </form>
     <br>
 
-    <a href="/list_posts">Back to Posts</a>
+    <a href='<%= posts_path %>'>Back to Posts</a>
   </body>
 </html>
+

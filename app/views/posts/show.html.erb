@@ -1,24 +1,19 @@
-<!-- /app/views/application/show_post.html.erb -->
-
 <html>
   <body>
     <div class='post'>
       <h2 class='title'>
         <%= @post.title %>
       </h2>
-
       <small class='meta'>
         <span class='author'>by <%= @post.author %> — </span>
         <em class='created_at'><%= @post.created_at %></em>
       </small>
-
       <p class='body'><%= @post.body %></p>
       <br><br>
-
       <div class="comments">
         <h3>Comments:</h3>
         <hr>
-        <% @comments.each_with_index do |comment, index| %>
+        <% @post.comments.each_with_index do |comment, index| %>
           <div class="comment">
             <small class="comment_meta">
               <span class="comment_author">#<%= index + 1 %> by <%= comment.author %> — </span>
@@ -27,10 +22,10 @@
             <p class="comment_body"><%= comment.body %></p>
           </div>
           <hr>
-          <form method="post" action="/list_posts/<%= @post.id %>/delete_comment/<%= comment.id %>">
-            <input type="submit" value="Delete Comment" />
+          <form method="post" action="<%= post_comments_path @post, comment %>" data-method='delete'>
+            <input type="submit" value="Delete Comment">
           </form>
-          <hr />
+          <hr>
         <% end %>
 
         <!-- display errors -->
@@ -39,27 +34,25 @@
              <p class="error" style="color: orange">
                <%= attribute %>: <%= error %>
              </p>
-           <% end%>
+           <% end %>
          </div>
 
         <!-- populate comment <form> with values -->
-        <form method="post" action="/create_comment_for_post/<%= @post.id %>">
-
+        <form method="post" action="<%= post_comments_path @post.id %>">
           <label for="body">Comment</label>
           <textarea id="body" name="body"><%= @comment.body %></textarea>
-          <br /> <br />
+          <br><br>
 
           <label for="author">Name</label>
           <input id="author" name="author" type="text" value="<%= @comment.author %>"/>
-          <br /> <br />
-
-          <input type="submit" value="Add Comment" />
-
+          <br><br>
+          <input type="submit" value="Add Comment">
         </form>
-        <hr />
+        <hr>
       </div>
     </div>
     <br>
-    <a href="/list_posts">Back to Posts</a>
+    <a href="<%= posts_path %>">Back to Posts</a>
   </body>
 </html>
+
