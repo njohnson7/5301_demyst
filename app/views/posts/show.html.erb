@@ -22,7 +22,8 @@
             <p class="comment_body"><%= comment.body %></p>
           </div>
           <hr>
-          <form method="post" action="<%= post_comments_path @post, comment %>" data-method='delete'>
+          <form method="post" action="<%= post_comment_path @post.id, comment.id %>"> 
+            <input name='_method' type='hidden' value='delete'>
             <input type="submit" value="Delete Comment">
           </form>
           <hr>
@@ -52,7 +53,8 @@
       </div>
     </div>
     <br>
-    <a href="<%= posts_path %>">Back to Posts</a>
+    <%= my_link_to 'Back to Posts', posts_path %>
+  </body>
   </body>
 </html>
 

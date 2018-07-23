@@ -26,7 +26,8 @@ class PostsController < ApplicationController
   end
 
   def update
-    if @post.update_attributes('author' => params[:author], 'title' => params[:title], 'body' => params[:body])
+    @post.set_attributes('author' => params[:author], 'title' => params[:title], 'body' => params[:body])
+    if @post.save
       redirect_to posts_path
     else
       render 'edit'

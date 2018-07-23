@@ -4,21 +4,22 @@
       <% @posts.each do |post| %>
         <div class='post'>
           <h2 class='title'>
-            <a href="<%= post_path post.id %>"><%= post.title %></a>
+            <%= link_to post.title, post_path(post.id) %>
           </h2>
           <small class='meta'>
             <span class='author'>by <%= post.author %> — </span>
             <em class='created_at'><%= post.created_at %></em>
           </small>
-          <a href="<%= post_path post.id %>">Edit</a>
-          <form method='post' action='<%= post_path post.id %>' style='display: inline' data-method='delete'>
+          <%= link_to 'Edit', edit_post_path(post.id) %>
+          <form method='post' action='<%= post_path post.id %>' style='display: inline'> 
+            <input name='_method' type='hidden' value='delete'>
             <input type='submit' value='Delete'>
           </form>
         </div>
         <hr>
       <% end %>
     </div>
-    <a href="<%= new_post_path %>">New Post</a>
+    <%= link_to 'New Post', new_post_path %>
   </body>
 </html>
 
