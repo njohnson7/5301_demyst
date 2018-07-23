@@ -1,10 +1,11 @@
 class PostsController < ApplicationController
+  before_action :find_post, only: [:show, :edit, :update, :destroy]
+
   def index
     @posts = Post.all
   end
 
   def show
-    @post    = Post.find params['id']
     @comment = Comment.new
   end
 
@@ -13,7 +14,7 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.new('author' => params['author'], 'title' => params['title'], 'body' => params['body'])
+    @post = Post.new('author' => params[:author], 'title' => params[:title], 'body' => params[:body])
     if @post.save
       redirect_to posts_path
     else
@@ -22,15 +23,10 @@ class PostsController < ApplicationController
   end
 
   def edit
-    @post = Post.find params['id']
   end
 
   def update
-    @post = Post.find params['id']
-    @post.set_attributes('author' => params['author'],
-                         'title'  => params['title'],
-                         'body'   => params['body'])
-    if @post.save
+    if @post.update_attributes('author' => params[:author], 'title' => params[:title], 'body' => params[:body])
       redirect_to posts_path
     else
       render 'edit'
@@ -38,9 +34,14 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    post = Post.find params['id']
-    post.destroy
+    @post.destroy
     redirect_to posts_path
   end
+
+  private
+
+    def find_post
+      @post = Post.find params[:id]
+    end
 end
 
