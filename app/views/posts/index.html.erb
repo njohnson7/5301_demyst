@@ -1,4 +1,9 @@
 <html>
+  <head>
+    <title>Blog App</title>
+    <%= javascript_include_tag 'application' %> 
+    <%= csrf_meta_tags %> 
+  </head>
   <body>
     <div class='posts'>
       <% @posts.each do |post| %>

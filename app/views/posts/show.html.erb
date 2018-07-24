@@ -1,4 +1,9 @@
 <html>
+  <head>
+    <title>Blog App</title>
+    <%= javascript_include_tag 'application' %> 
+    <%= csrf_meta_tags %> 
+  </head>
   <body>
     <div class='post'>
       <h2 class='title'>
@@ -22,9 +27,7 @@
             <p class="comment_body"><%= comment.body %></p>
           </div>
           <hr>
-          <%= form_tag post_comment_path(@post.id, comment.id), method: 'delete' do %>
-            <%= submit_tag 'Delete Comment' %>           
-          <% end %> 
+          <%= link_to 'Delete', post_comment_path(@post.id, comment.id), method: :delete, data: { confirm: "Are you sure you want to delete '#{comment.body}'?" } %>
           <hr>
         <% end %>
 
