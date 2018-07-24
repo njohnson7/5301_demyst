@@ -1,5 +1,3 @@
-# /app/models/post.rb
-
 class Post < BaseModel
   attr_reader :id, :title, :body, :author, :created_at
 
@@ -68,3 +66,4 @@ class Post < BaseModel
     Comment.find(comment_id).destroy
   end
 end
+

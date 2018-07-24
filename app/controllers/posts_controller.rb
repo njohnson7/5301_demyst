@@ -14,7 +14,7 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.new('author' => params[:author], 'title' => params[:title], 'body' => params[:body])
+    @post = Post.new params[:post]
     if @post.save
       redirect_to posts_path
     else
@@ -26,7 +26,7 @@ class PostsController < ApplicationController
   end
 
   def update
-    @post.set_attributes('author' => params[:author], 'title' => params[:title], 'body' => params[:body])
+    @post.set_attributes params[:post]
     if @post.save
       redirect_to posts_path
     else

@@ -1,5 +1,3 @@
-# app/models/base_model.rb
-
 class BaseModel
   def self.connection
     db_connection                 = SQLite3::Database.new 'db/development.sqlite3'
@@ -42,3 +40,4 @@ class BaseModel
     connection.execute query_string, id
   end
 end
+
