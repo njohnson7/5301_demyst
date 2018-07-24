@@ -1,29 +1,21 @@
-<html>
-  <head>
-    <title>Blog App</title>
-    <%= javascript_include_tag 'application' %> 
-    <%= csrf_meta_tags %> 
-  </head>
-  <body>
-    <div class='posts'>
-      <% @posts.each do |post| %>
-        <div class='post'>
-          <h2 class='title'>
-            <%= link_to post.title, post_path(post.id) %>
-          </h2>
-          <small class='meta'>
-            <span class='author'>by <%= post.author %> — </span>
-            <em class='created_at'><%= post.created_at %></em>
-          </small>
-          <%= link_to 'Edit', edit_post_path(post.id) %>
-          <%= form_tag post_path(post.id), method: 'delete', style: 'display: inline' do %> 
-            <%= submit_tag 'Delete' %>
-          <% end %>
-        </div>
-        <hr>
+<div class='posts'>
+  <% @posts.each do |post| %>
+    <div class='post'>
+      <h2 class='title'>
+        <%= link_to post.title, post_path(post.id) %>
+      </h2>
+      <small class='meta'>
+        <span class='author'>by <%= post.author %> — </span>
+        <em class='created_at'><%= post.created_at %></em>
+      </small>
+      <%= link_to 'Edit', edit_post_path(post.id) %>
+      <%= form_tag post_path(post.id), method: 'delete', style: 'display: inline' do %> 
+        <%= submit_tag 'Delete' %>
       <% end %>
     </div>
-    <%= link_to 'New Post', new_post_path %>
-  </body>
-</html>
+    <hr>
+  <% end %>
+</div>
+
+<%= link_to 'New Post', new_post_path %>
 
