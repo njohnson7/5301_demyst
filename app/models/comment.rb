@@ -2,6 +2,14 @@ class Comment < ApplicationRecord
   belongs_to :post
 
   validates_presence_of :body, :author
+
+  after_save :update_last_commented_on
+
+  private
+
+    def update_last_commented_on
+      post.last_commented_on = created_at
+    end
   
   # attr_reader :id, :body, :author, :post_id, :created_at
   
